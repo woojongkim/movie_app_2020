@@ -1,5 +1,7 @@
+//@ts-check
 import React from "react";
 import PropTypes from "prop-types";
+import axios from "axios";
 
 function doSomething() {
   console.log("hello button");
@@ -11,10 +13,12 @@ class App extends React.Component {
     movies: [],
   };
 
+  getMovies = async () => {
+    const movies = await axios.get("https://yts.mx/api/v2/list_movies.json");
+  };
+
   componentDidMount() {
-    setTimeout(() => {
-      this.setState({ isLoading: false });
-    }, 6000);
+    this.getMovies();
   }
 
   render() {
