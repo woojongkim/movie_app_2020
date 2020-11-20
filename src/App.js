@@ -6,52 +6,22 @@ function doSomething() {
 }
 
 class App extends React.Component {
-
-  // constructor
-  constructor(props){
-    super(props);
-    console.log("construct");
-  }
-
-  // mount
-  componentDidMount(){
-    console.log("component rendered");
-  }
-
-  // update
-  componentDidUpdate(){
-    console.log("component updated");
-  }
-
-  // unmount
-  componentWillUnmount(){
-    console.log("component will closed");
-  }
-
   state = {
-    count: 0,
+    isLoading: true,
+    movies: [],
   };
-  render() {
-    console.log("render");
-    return (
-      <div>
-        <h1>The number is : {this.state.count}</h1>
-        <button onClick={this.add}>Add</button>
-        <button onClick={this.minus}>Minus</button>
-      </div>
-    );
+
+  componentDidMount() {
+    setTimeout(() => {
+      this.setState({ isLoading: false });
+    }, 6000);
   }
 
-  add = () => {
-    console.log("add");
-    this.setState(current => ({count:current.count+1}));
-  };
-  minus = () => {
-    console.log("minus");
-    this.setState(item => ({count:item.count-1}));
-  };
-
-  
+  render() {
+    const { isLoading } = this.state;
+    console.log("render");
+    return <div>{isLoading ? "Loading.." : "We are ready"}</div>;
+  }
 }
 
 export default App;
