@@ -6,7 +6,7 @@ import "./App.css";
 
 class App extends React.Component {
   page = 1;
-  limit = 2;
+  limit = 10;
 
   state = {
     isLoading: true,
@@ -53,10 +53,10 @@ class App extends React.Component {
     return (
       <section className="container">
         <div className="navigator">
-        <button onClick={this.prev}>prev</button>
-        {curPage}
-        <button onClick={this.next}>next</button>
-        <button onClick={this.more}>more</button>
+          <button onClick={this.prev}>prev</button>
+          {curPage}
+          <button onClick={this.next}>next</button>
+          <button onClick={this.more}>more</button>
         </div>
         {isLoading ? (
           <div className="loader">
