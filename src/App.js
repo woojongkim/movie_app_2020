@@ -6,7 +6,7 @@ import "./App.css";
 
 class App extends React.Component {
   page = 1;
-  limit = 5;
+  limit = 2;
 
   state = {
     isLoading: true,
@@ -24,25 +24,25 @@ class App extends React.Component {
     } = await axios.get(
       newLocal
     );
-    this.setState({ movies, isLoading: false, curPage:page });
+    this.setState({ movies, isLoading: false, curPage: page });
   };
 
   componentDidMount() {
     this.getMovies(this.page);
   }
 
-  prev = () =>{
-    if(this.page<=1) 
+  prev = () => {
+    if (this.page <= 1)
       return;
     this.getMovies(--this.page);
   }
 
-  next = () =>{
+  next = () => {
     this.getMovies(++this.page);
   }
 
-  more = ()=>{
-    this.limit += 5;
+  more = () => {
+    this.limit += 1;
     this.getMovies(this.page);
   }
 
@@ -51,24 +51,30 @@ class App extends React.Component {
     console.log("render");
     console.log(movies);
     return (
-      <section class="container">
+      <section className="container">
+        <div className="navigator">
         <button onClick={this.prev}>prev</button>
         {curPage}
         <button onClick={this.next}>next</button>
         <button onClick={this.more}>more</button>
-        {isLoading?<div class="loader">
-          <span class="loader__text">Loading...</span>
-        </div>:movies.map(movie => (
-          <Movie
-            key={movie.id}
-            id={movie.id}
-            year={movie.year}
-            title={movie.title}
-            summary={movie.summary}
-            poster={movie.medium_cover_image}
-            rating={movie.rating}
-          />
-        ))}
+        </div>
+        {isLoading ? (
+          <div className="loader">
+            <span className="loader_text">Loading...</span>
+          </div>) :
+          (<div className="movies">{movies.map(movie => (
+            <Movie
+              key={movie.id}
+              id={movie.id}
+              year={movie.year}
+              title={movie.title}
+              summary={movie.summary}
+              poster={movie.medium_cover_image}
+              rating={movie.rating}
+              genres={movie.genres}
+            />
+          ))}
+          </div>)}
       </section>
     );
   }
