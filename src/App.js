@@ -2,6 +2,7 @@
 import React from "react";
 import axios from "axios";
 import Movie from "./Movie";
+import "./App.css";
 
 class App extends React.Component {
   page = 1;
@@ -14,7 +15,7 @@ class App extends React.Component {
   };
 
   getMovies = async (page) => {
-    const newLocal = `https://yts.mx/api/v2/list_movies.json?sort_by=rating&page=${page}&limit=${this.limit}`;
+    const newLocal = `https://yts.mx/api/v2/list_movies.json?page=${page}&limit=${this.limit}`;
     console.log(newLocal);
     const {
       data: {
@@ -50,23 +51,25 @@ class App extends React.Component {
     console.log("render");
     console.log(movies);
     return (
-      <div>
+      <section class="container">
         <button onClick={this.prev}>prev</button>
         {curPage}
         <button onClick={this.next}>next</button>
         <button onClick={this.more}>more</button>
-        {isLoading?"Loading":movies.map(movie => (
+        {isLoading?<div class="loader">
+          <span class="loader__text">Loading...</span>
+        </div>:movies.map(movie => (
           <Movie
             key={movie.id}
             id={movie.id}
             year={movie.year}
             title={movie.title}
-            summary={movie.title}
+            summary={movie.summary}
             poster={movie.medium_cover_image}
             rating={movie.rating}
           />
         ))}
-      </div>
+      </section>
     );
   }
 }

@@ -1,18 +1,18 @@
 //@ts-check
 import react from "react";
 import PropTypes from "prop-types";
+import "./Movie.css";
 
 function Movie({ id, year, title, summary, poster, rating }) {
   return (
-    <div>
-      <div>
-        {/* <h5>id : {id}</h5> */}
-        <h5>
+    <div class="movie">
+    <img src={poster} alt={title} title={title} />
+      <div class="moivie_data">
+        <h3 class="movie_title">
           {title}({year})
-        </h5>
+        </h3>
         <h5>{rating}/10.0</h5>
-        <img src={poster} alt="" />
-        <h5>{summary}</h5>
+        <h5 class>{summary}</h5>
       </div>
     </div>
   );
