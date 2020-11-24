@@ -1,80 +1,49 @@
-//@ts-check
 import React from "react";
 import axios from "axios";
-import Movie from "./components/Movie";
+import Movie from "../components/Movie";
 import "./Home.css";
 
 class Home extends React.Component {
-  page = 1;
-  limit = 10;
-
   state = {
     isLoading: true,
-    movies: [],
-    curPage: 1
+    movies: []
   };
-
-  getMovies = async (page) => {
-    const newLocal = `https://yts.mx/api/v2/list_movies.json?page=${page}&limit=${this.limit}`;
-    console.log(newLocal);
+  getMovies = async () => {
     const {
       data: {
-        data: { movies },
-      },
+        data: { movies }
+      }
     } = await axios.get(
-      newLocal
+      "https://yts-proxy.now.sh/list_movies.json?sort_by=rating"
     );
-    this.setState({ movies, isLoading: false, curPage: page });
+    this.setState({ movies, isLoading: false });
   };
-
   componentDidMount() {
-    this.getMovies(this.page);
+    this.getMovies();
   }
-
-  prev = () => {
-    if (this.page <= 1)
-      return;
-    this.getMovies(--this.page);
-  }
-
-  next = () => {
-    this.getMovies(++this.page);
-  }
-
-  more = () => {
-    this.limit += 1;
-    this.getMovies(this.page);
-  }
-
   render() {
-    const { isLoading, movies, curPage } = this.state;
-    console.log("render");
-    console.log(movies);
+    const { isLoading, movies } = this.state;
     return (
       <section className="container">
-        <div className="navigator">
-          <button onClick={this.prev}>prev</button>
-          {curPage}
-          <button onClick={this.next}>next</button>
-          <button onClick={this.more}>more</button>
-        </div>
         {isLoading ? (
           <div className="loader">
-            <span className="loader_text">Loading...</span>
-          </div>) :
-          (<div className="movies">{movies.map(movie => (
-            <Movie
-              key={movie.id}
-              id={movie.id}
-              year={movie.year}
-              title={movie.title}
-              summary={movie.summary}
-              poster={movie.medium_cover_image}
-              rating={movie.rating}
-              genres={movie.genres}
-            />
-          ))}
-          </div>)}
+            <span className="loader__text">Loading...</span>
+          </div>
+        ) : (
+          <div className="movies">
+            {movies.map(movie => (
+              <Movie
+                key={movie.id}
+                id={movie.id}
+                year={movie.year}
+                title={movie.title}
+                summary={movie.summary}
+                poster={movie.medium_cover_image}
+                genres={movie.genres}
+              />
+            ))}
+          </div>
+        )}
       </section>
     );
   }
